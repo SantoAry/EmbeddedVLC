@@ -41,7 +41,7 @@ const uint8_t buffStart[]    = "\r\n++++++++++++++++ LPUART Receive ++++++++++++
 const uint8_t bufferData1[]  = "\r\nWait for LPUART transmission from LED\r\n";
 
 //////////////////////////////////////////////
-// 		How to view received data	//
+// 	How to view received data           //
 //////////////////////////////////////////////
 
 /*  Open PuTTY, configure Serial under Connection to be:
@@ -91,12 +91,12 @@ int main(void)
     // Initialize the lpuart module with instance number and config structure
     LPUART_DRV_Init(BOARD_DEBUG_UART_INSTANCE, &lpuartStatePtr, &lpuartConfig);
 
-    // Inform to start non blocking example
+    // LPUART0 Receive
     byteCountBuff = sizeof(buffStart);
     LPUART_DRV_SendData(BOARD_DEBUG_UART_INSTANCE, buffStart, byteCountBuff);
     while (kStatus_LPUART_TxBusy == LPUART_DRV_GetTransmitStatus(BOARD_DEBUG_UART_INSTANCE, NULL)){}
 
-    // Inform user of what to do
+    // Notify user of what to do
     byteCountBuff = sizeof(bufferData1);
     LPUART_DRV_SendData(BOARD_DEBUG_UART_INSTANCE, bufferData1, byteCountBuff);
     while (kStatus_LPUART_TxBusy == LPUART_DRV_GetTransmitStatus(BOARD_DEBUG_UART_INSTANCE, NULL)){}
@@ -109,7 +109,7 @@ int main(void)
         while (kStatus_LPUART_RxBusy == LPUART_DRV_GetReceiveStatus(BOARD_DEBUG_UART_INSTANCE, NULL)){}
 
         txChar = rxChar;
-        // Wait for the transfer finish, OR do something else
+        // Display data to PC (PuTTY Terminal)
         LPUART_DRV_SendData(BOARD_DEBUG_UART_INSTANCE, &txChar, 1);
     }
 
