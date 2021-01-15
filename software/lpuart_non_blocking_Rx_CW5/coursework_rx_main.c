@@ -66,9 +66,9 @@ int main(void)
     // Fill in lpuart config data
     lpuart_user_config_t lpuartConfig = {
         .clockSource     = BOARD_LPUART_CLOCK_SOURCE, /*kClockLpuartSrcIrc48M*/
-        .bitCountPerChar = kLpuart8BitsPerChar,
-        .parityMode      = kLpuartParityDisabled,
-        .stopBitCount    = kLpuartOneStopBit,
+        .bitCountPerChar = kLpuart8BitsPerChar, /*8-bits per char */
+        .parityMode      = kLpuartParityDisabled, /* None */
+        .stopBitCount    = kLpuartOneStopBit, /* 1 stop bit */
         .baudRate        = BOARD_DEBUG_UART_BAUD	/*9600*/
     };
 
