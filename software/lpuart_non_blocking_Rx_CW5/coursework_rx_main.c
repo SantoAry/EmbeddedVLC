@@ -112,7 +112,7 @@ int main(void)
         // Display data to PC (PuTTY Terminal)
         LPUART_DRV_SendData(BOARD_DEBUG_UART_INSTANCE, &txChar, 1);
     }
-
+  return 0;
 }
 
 /*******************************************************************************
