@@ -1,3 +1,0 @@
-C:/Freescale/KSDK_1.3.0/TEST/software/lpuart_non_blocking_Tx_CW5/armgcc/CMakeFiles/coursework_5_tx.dir
-C:/Freescale/KSDK_1.3.0/TEST/software/lpuart_non_blocking_Tx_CW5/armgcc/CMakeFiles/edit_cache.dir
-C:/Freescale/KSDK_1.3.0/TEST/software/lpuart_non_blocking_Tx_CW5/armgcc/CMakeFiles/rebuild_cache.dir
