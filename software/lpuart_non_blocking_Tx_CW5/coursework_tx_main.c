@@ -42,7 +42,7 @@
 #include "SEGGER_RTT.h"
 
 const uint8_t buffStart[]    = "\r\n\n+++++LPUART Transmission+++++\r\n";
-const uint8_t bufferData1[]  = "\r\nType characters from keyboard, the board will receive and then echo them to terminal screen (reset the board to stop\r\n";
+const uint8_t bufferData1[]  = "\r\nTx will send the data individually\r\n";
 
 int main(void)
 {
@@ -85,7 +85,7 @@ int main(void)
 	SEGGER_RTT_WriteString(0, "\r\n4B25 Coursework #5	CRSID: aaans2\r\n");
 	OSA_TimeDelay(200);
 	
-    /*
+    	/*
 	 *	Initialize RTC Driver
 	 */
 	RTC_DRV_Init(0);
@@ -97,9 +97,9 @@ int main(void)
 	// Fill in lpuart config data
     lpuart_user_config_t lpuartConfig = {
         .clockSource     = BOARD_LPUART_CLOCK_SOURCE, /*kClockLpuartSrcIrc48M*/
-        .bitCountPerChar = kLpuart8BitsPerChar,
-        .parityMode      = kLpuartParityDisabled,
-        .stopBitCount    = kLpuartOneStopBit,
+        .bitCountPerChar = kLpuart8BitsPerChar,	/*8-bits per char*/
+        .parityMode      = kLpuartParityDisabled, /* None */
+        .stopBitCount    = kLpuartOneStopBit, /*1 stop bit */
         .baudRate        = BOARD_DEBUG_UART_BAUD	/*9600*/
     };
 	
@@ -222,7 +222,7 @@ int main(void)
 				SEGGER_RTT_WriteString(0, "\r\nType characters from keyboard, the board will receive and then echo them to terminal screen (reset the board to stop)\r\n");
 				OSA_TimeDelay(100);
 						
-				// Inform to start non blocking example
+				// Tx Debug
 				byteCountBuff = sizeof(buffStart);
 				LPUART_DRV_SendData(BOARD_DEBUG_UART_INSTANCE, buffStart, byteCountBuff);
 				while (kStatus_LPUART_TxBusy == LPUART_DRV_GetTransmitStatus(BOARD_DEBUG_UART_INSTANCE, NULL)){}
