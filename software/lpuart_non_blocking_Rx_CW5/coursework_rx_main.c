@@ -28,20 +28,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-///////////////////////////////////////////////////////////////////////////////
-//  Includes
-///////////////////////////////////////////////////////////////////////////////
-
-// SDK Included Files
+// KSDK header files
 #include "board.h"
 #include "fsl_clock_manager.h"
 #include "fsl_lpuart_driver.h"
 
+
 const uint8_t buffStart[]    = "\r\n++++++++++++++++ LPUART Receive +++++++++++++++++\r\n";
-const uint8_t bufferData1[]  = "\r\nWait for LPUART transmission from LED\r\n";
+const uint8_t bufferData1[]  = "\r\nWait for LPUART transmission from LED or type in the terminal for debugging\r\n";
 
 //////////////////////////////////////////////
-// 	How to view received data           //
+// 	How to view received data               //
 //////////////////////////////////////////////
 
 /*  Open PuTTY, configure Serial under Connection to be:
@@ -49,6 +46,7 @@ const uint8_t bufferData1[]  = "\r\nWait for LPUART transmission from LED\r\n";
 	Data Bits: 8
 	Stop Bits: 1
 	Parity	 : none
+	Flow control : XON/XOFF
 	
 	Now open Serial Session, choose serial line depending the port of your device (e.g COM8) 
 	In windows the port can be checked within Device Manager
@@ -108,6 +106,8 @@ int main(void)
         LPUART_DRV_ReceiveData(BOARD_DEBUG_UART_INSTANCE, &rxChar, 1);
         while (kStatus_LPUART_RxBusy == LPUART_DRV_GetReceiveStatus(BOARD_DEBUG_UART_INSTANCE, NULL)){}
 
+
+	
         txChar = rxChar;
         // Display data to PC (PuTTY Terminal)
         LPUART_DRV_SendData(BOARD_DEBUG_UART_INSTANCE, &txChar, 1);
