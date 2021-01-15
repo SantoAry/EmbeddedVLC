@@ -90,8 +90,6 @@ int main(void)
 	 */
 	RTC_DRV_Init(0);
 	
-	//Initialize MMA8451Q
-	//initMMA8451Q(	0x1D	/* i2cAddress */,	&deviceMMA8451QState	);
 
 	
 	// Fill in lpuart config data
@@ -109,7 +107,7 @@ int main(void)
 
 	while(1)
 	{
-		SEGGER_RTT_WriteString(0, "\r\nChoose the following options\r\n");
+		SEGGER_RTT_WriteString(0, "\r\n\nChoose the following options\r\n");
 		OSA_TimeDelay(10);
 		SEGGER_RTT_WriteString(0, "\r- 'a': Display LPUART Setting.\n");
 		OSA_TimeDelay(10);
@@ -125,7 +123,9 @@ int main(void)
 		OSA_TimeDelay(10);
 		SEGGER_RTT_WriteString(0, "\r- 'g': Make the LPUART Tx transmit all symbols.\n");
 		OSA_TimeDelay(10);
-		SEGGER_RTT_WriteString(0, "\r- 'h': Make the LPUART Tx transmit input from the keyboard\n");
+		SEGGER_RTT_WriteString(0, "\r- 'h': Make the LPUART Tx transmit all characters.\n");
+		OSA_TimeDelay(10);
+		SEGGER_RTT_WriteString(0, "\r- 'i': Make the LPUART Tx transmit input from the keyboard\n");
 		OSA_TimeDelay(10);
 		SEGGER_RTT_WriteString(0, "\rEnter selection> ");
 		OSA_TimeDelay(10);
@@ -136,15 +136,15 @@ int main(void)
 		{
 			case 'a':
 			{
-				SEGGER_RTT_WriteString(0, "\r\nBaud rate: 9600\r\n");
+				SEGGER_RTT_WriteString(0, "\r\n\nBaud rate			: 9600\r\n");
 				OSA_TimeDelay(10);
-				SEGGER_RTT_WriteString(0, "\r\nBit count per char: 8-bits\r\n");
+				SEGGER_RTT_WriteString(0, "\rBit count per char		: 8-bits\r\n");
 				OSA_TimeDelay(10);
-				SEGGER_RTT_WriteString(0, "\r\nParity mode: None\r\n");
+				SEGGER_RTT_WriteString(0, "\rParity mode			: None\r\n");
 				OSA_TimeDelay(10);
-				SEGGER_RTT_WriteString(0, "\r\nStop bit: 1\r\n");
+				SEGGER_RTT_WriteString(0, "\rStop bit			: 1\r\n");
 				OSA_TimeDelay(10);
-				SEGGER_RTT_WriteString(0, "\r\nLPUART clock source: kClockLpuartSrcIrc48M\r\n");
+				SEGGER_RTT_WriteString(0, "\rLPUART clock source		: kClockLpuartSrcIrc48M\r\n");
 				OSA_TimeDelay(10);
 				break;
 			}
@@ -206,7 +206,7 @@ int main(void)
 			
 			case 'g':
 			{
-				const uint8_t txCharG[] = "\r\n~`!?@#$%^&*()-+_={}[]<|>;:',./\\r\n";
+				const uint8_t txCharG[] = "\r\n~`!?@#$%^&*()-+_={}[]<|>;:',./\\\r\n";
 				uint32_t byteCountTxCharG = sizeof(txCharG);
 
 				// Wait for the transfer finish, OR do something else
@@ -216,6 +216,17 @@ int main(void)
 			}
 			
 			case 'h':
+			{
+				const uint8_t txCharH[] = "\r\nABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n\rabcdefghijklmnopqrstuvwxyz\r\n\r0123456789\r\n\r~`!?@#$%^&*()-+_={}[]<|>;:',./\\\r\n";
+				uint32_t byteCountTxCharH = sizeof(txCharH);
+
+				// Wait for the transfer finish, OR do something else
+				LPUART_DRV_SendData(BOARD_DEBUG_UART_INSTANCE, txCharH, byteCountTxCharH);
+				while (kStatus_LPUART_TxBusy == LPUART_DRV_GetTransmitStatus(BOARD_DEBUG_UART_INSTANCE, NULL)){}
+				break;
+			}
+			
+			case 'i':
 			{
 				SEGGER_RTT_WriteString(0, "\r\n\n+++++LPUART Transmission+++++\r\n");
 				OSA_TimeDelay(100);
